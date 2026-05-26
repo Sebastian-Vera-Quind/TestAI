@@ -11,7 +11,6 @@ Insight AI Backend is a multi-tenant AI-powered application backend designed to 
 _Detalle: [`docs/architecture.md`](docs/architecture.md)._
 </architecture-constraints>
 
-
 <framework-rules>
 ## Working contract
 1. **Empezar**: invocá la MCP tool `tlm_start_use_case(project_code, use_case_id)` para marcar el UC como `in_progress`.
