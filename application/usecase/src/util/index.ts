@@ -1,0 +1,1 @@
+export { generateVividRandomColorHex } from './color';
