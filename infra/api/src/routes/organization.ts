@@ -150,29 +150,6 @@ export function registerOrganizationRoutes(router: Router): void {
     },
   );
 
-  router.put(
-    '/api/v1/organizations/:organizationId/favorite',
-    sessionMiddleware,
-    (req: Request, res: Response, next: NextFunction) => {
-      if (!req.session) {
-        return next(new UnauthorizedError('No active session found.'));
-      }
-
-      const paramsResult = OrgParamsSchema.safeParse(req.params);
-      if (!paramsResult.success) {
-        return next(new DataError('A valid organization ID is required.'));
-      }
-      const { organizationId } = paramsResult.data as { organizationId: UUID };
-
-      organizationUseCase
-        .toggleFavoriteOrganization(organizationId, req.session.idUser)
-        .then((isFavorite) => {
-          res.status(200).json({ isFavorite });
-        })
-        .catch(next);
-    },
-  );
-
   router.post(
     '/api/v1/organizations/:organizationId/members',
     sessionMiddleware,
