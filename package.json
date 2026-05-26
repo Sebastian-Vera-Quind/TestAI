@@ -1,0 +1,30 @@
+{
+  "name": "insight-ai",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "pnpm -r run build",
+    "build:watch": "pnpm -r run build --watch",
+    "migration:run": "pnpm --filter @insight-ai/persistence-adapter migration:run",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "start": "pnpm --filter @insight-ai/api start",
+    "dev": "tsx watch --env-file=.env --include ./infra/api/src/**/*.ts --include ./infra/helper/src/**/*.ts --include ./application/usecase/src/**/*.ts --include ./domain/models/src/**/*.ts --include ./infra/driven-adapters/**/src/**/*.ts ./infra/api/src/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.18.0",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^25.5.0",
+    "eslint": "^10.1.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "globals": "^17.4.0",
+    "prettier": "^3.8.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.58.0"
+  }
+}

@@ -1,0 +1,9 @@
+packages:
+  - infra/api
+  - infra/helper
+  - infra/driven-adapters/*
+  - domain/*
+  - application/*
+
+onlyBuiltDependencies:
+  - oracledb
