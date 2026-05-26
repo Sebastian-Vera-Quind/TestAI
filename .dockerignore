@@ -1,0 +1,6 @@
+node_modules
+domain/**/dist
+application/**/dist
+infra/**/dist
+!**/src/dist
+/secrets
