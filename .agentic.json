@@ -1,0 +1,9 @@
+{
+  "project_code": "NODE-MONO",
+  "project_name": "Prueba-Cursor",
+  "language": "TypeScript",
+  "project_id": "561c8d10-2960-40ca-9571-c08f2cc00238",
+  "repo_url": "https://github.com/Sebastian-Vera-Quind/TestAI",
+  "default_branch": "main",
+  "framework": "Express 5"
+}
