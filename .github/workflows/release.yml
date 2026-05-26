@@ -1,0 +1,61 @@
+name: Release
+
+on:
+  push:
+    branches: [release]
+
+jobs:
+  semantic-release:
+    name: Semantic Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Release
+        run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create PR release to main if missing
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.CI_GH_TOKEN || github.token }}
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const base = "main";
+            const head = `${owner}:release`;
+
+            const { data: openPulls } = await github.rest.pulls.list({
+              owner,
+              repo,
+              state: "open",
+              base,
+              head,
+            });
+
+            if (openPulls.length > 0) {
+              core.info(`Open PR already exists: #${openPulls[0].number}`);
+              return;
+            }
+
+            const { data: created } = await github.rest.pulls.create({
+              owner,
+              repo,
+              title: "chore: promote release to main",
+              head: "release",
+              base: "main",
+              body: "PR creada automaticamente al hacer merge a release.",
+            });
+
+            core.info(`Created PR #${created.number}`);

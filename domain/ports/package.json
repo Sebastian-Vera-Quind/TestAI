@@ -1,0 +1,22 @@
+{
+  "name": "@insight-ai/domain-ports",
+  "version": "1.0.0",
+  "private": true,
+  "types": "./src/index.ts",
+  "exports": {
+    "./in": {
+      "types": "./src/in/index.ts",
+      "default": "./dist/in/index.js"
+    },
+    "./out": {
+      "types": "./src/out/index.ts",
+      "default": "./dist/out/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@insight-ai/domain-models": "workspace:*"
+  }
+}
