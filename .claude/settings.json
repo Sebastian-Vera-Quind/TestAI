@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "tok_file=\"$HOME/.agentic/token\"; repo=\".agentic.json\"; command -v jq >/dev/null 2>&1 || exit 0; [ -f \"$tok_file\" ] || exit 0; [ -f \"$repo\" ] || exit 0; tok=$(cat \"$tok_file\" 2>/dev/null); [ -z \"$tok\" ] && exit 0; cfg=\"$HOME/.agentic/client-config.json\"; [ -f \"$cfg\" ] || exit 0; proj_url=\"${AGENTIC_PROJECTS_URL:-$(jq -r '.projects_url // empty' \"$cfg\" 2>/dev/null)}\"; [ -z \"$proj_url\" ] && exit 0; base=\"${proj_url%%/api/v1/*}\"; project_id=$(jq -r '.project_id // empty' \"$repo\" 2>/dev/null); [ -z \"$project_id\" ] && exit 0; input=$(cat); tool=$(printf '%s' \"$input\" | jq -r '.tool_name // empty' 2>/dev/null); fp=$(printf '%s' \"$input\" | jq -r '.tool_input.file_path // empty' 2>/dev/null); [ -z \"$fp\" ] && exit 0; proj_root=\"$(pwd)\"; fp=\"${fp#${proj_root}/}\"; ext=\"${fp##*.}\"; case \"$ext\" in py|java|kt|kts|go|ts|tsx|js|jsx|mjs|cjs|cs|cpp|c|cc|h|hpp|rs|scala|swift|dart|rb|php|ex|exs|clj|sql|graphql|proto|tf) ;; *) exit 0 ;; esac; lc=$(printf '%s' \"$input\" | jq -r '((.tool_input.new_string // .tool_input.content // \"\") | split(\"\\n\") | length)' 2>/dev/null); now=$(date -u +\"%Y-%m-%dT%H:%M:%SZ\" 2>/dev/null || echo \"1970-01-01T00:00:00Z\"); line_start=1; fl=$(printf '%s' \"$input\" | jq -r '(.tool_input.new_string // \"\" | split(\"\\n\") | .[0])' 2>/dev/null); [ \"$tool\" = \"Edit\" ] && [ -f \"$fp\" ] && [ -n \"$fl\" ] && gln=$(grep -nF \"$fl\" \"$fp\" 2>/dev/null | head -1 | cut -d: -f1) && [ -n \"$gln\" ] && line_start=$gln; line_end=$((line_start + ${lc:-1} - 1)); payload=$(jq -nc --arg pid \"$project_id\" --arg fp \"$fp\" --argjson ls \"${line_start}\" --argjson le \"${line_end}\" --arg now \"$now\" '{\"project_id\":$pid,\"commit_sha\":\"WORKSPACE_PENDING\",\"attributions\":[{\"file_path\":$fp,\"line_start\":$ls,\"line_end\":$le,\"generator\":\"claude_code\",\"generated_at\":$now}]}'); curl -sf -X POST \"$base/api/v1/ai-attributions/bulk\" -H \"Authorization: Bearer $tok\" -H \"Content-Type: application/json\" -d \"$payload\" >/dev/null 2>&1; exit 0"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,61 @@
+# agentic — .aiignore generado por DevCore F30
+# Alineado con Política SDLC QUIND v1.0 §4.1 (secretos), §4.2 (HTTP dev files), §6.2 (.gitignore corporate).
+# Fuente: GET /api/v1/aiignore-baseline del TLM (fail-open a baseline mínimo si TLM no responde).
+# Extras del proyecto vienen de Project.ignored_paths (TLM JSONB).
+
+# --- Baseline (TLM) ---
+.env
+.env.*
+!.env.example
+.env.local
+.env.production
+.env.staging
+*secret*
+*password*
+*credentials*
+*token*
+*.key
+*.pem
+*.pfx
+*.p12
+id_rsa*
+credentials.json
+service-account*.json
+.mcp.json
+curls.md
+*.curl
+requests.*
+postman_collection.json
+*.http
+*.crt
+*.cer
+*.der
+*.ca-bundle
+appsettings.*.json
+!appsettings.json
+local.settings.json
+*.tfvars
+terraform.tfstate
+terraform.tfstate.*
+.terraform/
+node_modules/
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+dist/
+build/
+target/
+.next/
+.nuxt/
+out/
+*.zip
+*.tar.gz
+*.jar
+*.war
+*.exe
+*.db
+*.sqlite*
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/settings.json
