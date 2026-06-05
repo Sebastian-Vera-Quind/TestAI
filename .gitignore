@@ -71,3 +71,4 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 /iac/terraform.tfstate.*
 /iac/.terraform.lock.hcl
 /iac/*.tfstate
+.mcp.json

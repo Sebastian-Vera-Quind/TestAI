@@ -1,0 +1,7 @@
+---
+description: "Pointer to AGENTS.md (Guardian Suite)"
+globs: "**/*"
+alwaysApply: true
+---
+
+Read `AGENTS.md` at the repo root. It is the source of truth for standards, patterns, domain, quality gate and AI attribution.

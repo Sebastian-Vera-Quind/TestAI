@@ -1,0 +1,8 @@
+---
+description: "Restricciones blocking del proyecto"
+globs: "**/*"
+alwaysApply: true
+---
+
+## Constraints
+

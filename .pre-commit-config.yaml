@@ -1,0 +1,12 @@
+# QUIND corporate .pre-commit-config.yaml
+# Política SDLC QUIND v1.0 §7.2
+# Mantenido por `agentic setup-security`. No editar manualmente salvo acuerdo con TI+Seguridad.
+
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.18.2
+    hooks:
+      - id: gitleaks
+        name: Detect hardcoded secrets (gitleaks)
+        description: Corporate gitleaks pre-commit per QUIND SDLC policy §7.2
+        args: ["--verbose", "--redact"]
