@@ -2,6 +2,7 @@ import { errorMiddleware } from './error';
 import { sessionMiddleware } from './session';
 import { transactionMiddleware } from './transaction';
 import { traceMiddleware } from './trace';
+import { validateMiddleware } from './validateMiddleware';
 import { json } from 'express';
 import cookie from 'cookie-parser';
 import cors from 'cors';
@@ -18,4 +19,4 @@ export const standardMiddlewares = [
   traceMiddleware,
 ];
 
-export { sessionMiddleware, errorMiddleware };
+export { sessionMiddleware, errorMiddleware, validateMiddleware };

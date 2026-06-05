@@ -1,9 +1,9 @@
 import express, { Router } from 'express';
-import { registerOrganizationRoutes } from './organization';
-import { regiterSessionRoutes } from './session';
+import { registerOrganizationRoutes } from './organization/organization.router';
+import { regiterSessionRoutes } from './session/session.router';
 import { healthCheckHandler } from './health';
-import { registerRoleRoutes } from './role';
-import { registerDatasourceRoutes } from './datasource';
+import { registerRoleRoutes } from './role/role.router';
+import { registerDatasourceRoutes } from './datasource/datasource.router';
 
 export const getMainRouter = (): Router => {
   const router = express.Router();
