@@ -9,7 +9,7 @@ export const ErrorResponseSchema = registry.register(
   'ErrorResponse',
   z.object({
     error: z.string().openapi({ example: 'DataError' }),
-    message: z.string().openapi({ example: 'Validation failed' }),
+    message: z.string().openapi({ example: 'Field x is required' }),
     code: z.number().optional().openapi({ example: 400 }),
   }),
 );
