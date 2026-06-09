@@ -13,7 +13,7 @@ import {
   UpdateRoleResponse,
   UpdateRoleBody,
 } from './role.schema';
-import { OrgParams } from '../organization/organization.schema';
+import { UUIDSchema } from '../../schemas/common';
 
 export function registerRoleRoutes(router: Router): void {
   const roleUseCase = inject(InPortType.RoleUseCase);
@@ -26,7 +26,9 @@ export function registerRoleRoutes(router: Router): void {
       fullPath: '/api/v1/roles/{organizationId}',
       summary: 'Create role for organization',
       tags: ['Role'],
-      params: OrgParams,
+      params: z.object({
+        organizationId: UUIDSchema,
+      }),
       body: {
         schema: CreateRoleBody,
       },
@@ -42,7 +44,7 @@ export function registerRoleRoutes(router: Router): void {
         return next(new UnauthorizedError('No active session found.'));
       }
 
-      const { organizationId } = req.params as z.infer<typeof OrgParams>;
+      const { organizationId } = req.params as { organizationId: string };
       const { name, parentRoleId, color, permissions } = req.body as z.infer<
         typeof CreateRoleBody
       >;
@@ -106,7 +108,9 @@ export function registerRoleRoutes(router: Router): void {
       fullPath: '/api/v1/roles/{organizationId}/subordinate',
       summary: 'List subordinate roles',
       tags: ['Role'],
-      params: OrgParams,
+      params: z.object({
+        organizationId: UUIDSchema,
+      }),
       responses: {
         200: {
           description: 'Subordinate roles listed',
@@ -119,7 +123,7 @@ export function registerRoleRoutes(router: Router): void {
         return next(new UnauthorizedError('No active session found.'));
       }
 
-      const { organizationId } = req.params as z.infer<typeof OrgParams>;
+      const { organizationId } = req.params as { organizationId: string };
 
       roleUseCase
         .listSubordinateRoles(organizationId as UUID, req.session.idUser)
@@ -136,7 +140,9 @@ export function registerRoleRoutes(router: Router): void {
       fullPath: '/api/v1/roles/{organizationId}',
       summary: 'List roles for organization',
       tags: ['Role'],
-      params: OrgParams,
+      params: z.object({
+        organizationId: UUIDSchema,
+      }),
       responses: {
         200: {
           description: 'Roles listed',
@@ -149,7 +155,7 @@ export function registerRoleRoutes(router: Router): void {
         return next(new UnauthorizedError('No active session found.'));
       }
 
-      const { organizationId } = req.params as z.infer<typeof OrgParams>;
+      const { organizationId } = req.params as { organizationId: string };
 
       roleUseCase
         .listRoles(organizationId as UUID, req.session.idUser)
