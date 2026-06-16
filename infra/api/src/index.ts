@@ -2,9 +2,8 @@ import express, { Express } from 'express';
 import swaggerUi from 'swagger-ui-express';
 import { SessionData } from '@insight-ai/domain-models';
 import { errorMiddleware, standardMiddlewares } from './middlewares';
-import { OpenApiGeneratorV31 } from '@asteasolutions/zod-to-openapi';
 import { getMainRouter } from './routes';
-import { registry } from './schemas/registry';
+import { generateOpenAPIDocument } from './openapi';
 
 export class InsightAPI {
   private static instance: InsightAPI;
@@ -22,7 +21,7 @@ export class InsightAPI {
     this.app.use(getMainRouter());
 
     if (process.env.GENERATE_OPENAPI_DOCS === 'true') {
-      const openApiDocument = this.generateOpenAPIDocument();
+      const openApiDocument = generateOpenAPIDocument();
 
       this.app.get('/api-docs/json', (_req, res) => {
         res.json(openApiDocument);
@@ -39,19 +38,6 @@ export class InsightAPI {
     const port = process.env.PORT || 3000;
     this.app.listen(port, () => {
       console.log(`API server is running on port ${port}`);
-    });
-  }
-
-  generateOpenAPIDocument(): object {
-    const generator = new OpenApiGeneratorV31(registry.definitions);
-    return generator.generateDocument({
-      openapi: '3.1.0',
-      info: {
-        version: '1.0.0',
-        title: 'InsightAI API',
-        description: 'Backend API for the InsightAI platform',
-      },
-      servers: [{ url: '/' }],
     });
   }
 }
