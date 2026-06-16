@@ -70,6 +70,12 @@ export function resolveConnectionConfig(
   password: string;
   database: string;
 } {
+  if (!data.connectionString && !data.type) {
+    throw new DataError(
+      'type must be one of: POSTGRESQL, MYSQL, SQLSERVER, ORACLE.',
+    );
+  }
+
   if (data.connectionString) {
     return parseConnectionString(data.connectionString, data.type);
   }

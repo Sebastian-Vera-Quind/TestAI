@@ -94,14 +94,6 @@ export function registerDatasourceRoutes(router: Router): void {
       const { organizationId } = req.params as z.infer<typeof OrgParams>;
       const body = req.body as z.infer<typeof CreateDatasourceBody>;
 
-      if (!body.connectionString && !body.type) {
-        return next(
-          new DataError(
-            'type must be one of: POSTGRESQL, MYSQL, SQLSERVER, ORACLE.',
-          ),
-        );
-      }
-
       datasourceUseCase
         .createDatasource(organizationId as UUID, req.session.idUser, {
           name: body.name,

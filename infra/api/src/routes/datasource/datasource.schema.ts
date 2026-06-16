@@ -1,15 +1,14 @@
 import { z, registry } from '../../schemas/registry';
 import { UUIDSchema, pageOf } from '../../schemas/common';
+import { DatasourceType } from '@insight-ai/domain-models';
 
 export const DatasourceParams = z.object({
   organizationId: UUIDSchema,
   datasourceId: UUIDSchema,
 });
 
-const VALID_DB_TYPES = ['POSTGRESQL', 'MYSQL', 'SQLSERVER', 'ORACLE'] as const;
-
 export const TestConnectionBody = z.object({
-  type: z.enum(VALID_DB_TYPES).optional().openapi({ example: 'POSTGRESQL' }),
+  type: z.enum(DatasourceType).optional().openapi({ example: 'POSTGRESQL' }),
   host: z.string().optional(),
   port: z.number().int().optional(),
   database: z.string().optional(),
@@ -20,7 +19,7 @@ export const TestConnectionBody = z.object({
 
 export const CreateDatasourceBody = z.object({
   name: z.string().min(1).openapi({ example: 'Primary DB' }),
-  type: z.enum(VALID_DB_TYPES).optional().openapi({ example: 'POSTGRESQL' }),
+  type: z.enum(DatasourceType).optional().openapi({ example: 'POSTGRESQL' }),
   host: z.string().optional(),
   port: z.number().int().optional(),
   database: z.string().optional(),
